@@ -8,7 +8,7 @@ Add this to your package's pubspec.yaml file:
 
 ```
 dependencies:
-  gps: ^0.1.1 # (latest version)
+  sensor_engine: # (latest version)
 ```  
 
 ```
