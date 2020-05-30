@@ -10,4 +10,9 @@ class SensorEngine {
     final String version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
+
+  static Future<List<String>> get availableSensors async {
+    final List<String> sensors = await _channel.invokeMethod('getAvailableSensors');
+    return sensors;
+  }
 }

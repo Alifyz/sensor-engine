@@ -41,12 +41,18 @@ public class SensorEnginePlugin: FlutterPlugin, MethodCallHandler {
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
+    } else if(call.method == "getAvailableSensors") {
+      result.success(getAvailableSensors)
     } else {
-      result.notImplemented()
+       result.notImplemented()
     }
   }
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
+  }
+
+  fun getAvailableSensors() : List<String> {
+      return ['Testing']
   }
 }
