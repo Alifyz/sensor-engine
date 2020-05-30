@@ -1,5 +1,7 @@
 package com.example.sensor_engine
 
+import android.content.Context
+import android.hardware.SensorManager
 import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -15,10 +17,12 @@ public class SensorEnginePlugin: FlutterPlugin, MethodCallHandler {
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
   /// when the Flutter Engine is detached from the Activity
   private lateinit var channel : MethodChannel
+  private lateinit var sensorManager : SensorManager
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "sensor_engine")
     channel.setMethodCallHandler(this);
+    sensorManager = 
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It supports the old
@@ -39,12 +43,16 @@ public class SensorEnginePlugin: FlutterPlugin, MethodCallHandler {
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "getPlatformVersion") {
-      result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } else if(call.method == "getAvailableSensors") {
-      result.success(getAvailableSensors)
-    } else {
-       result.notImplemented()
+    when(call.method) {
+      "getPlatformVersion" -> {
+        result.success("Android ${android.os.Build.VERSION.RELEASE}")
+      }
+      "getAvailableSensors" -> {
+        result.success(getAvailableSensors())
+      }
+      else -> {
+        result.notImplemented()
+      }
     }
   }
 
@@ -53,6 +61,6 @@ public class SensorEnginePlugin: FlutterPlugin, MethodCallHandler {
   }
 
   fun getAvailableSensors() : List<String> {
-      return ['Testing']
+      return mutableListOf<String>("Test").toList()
   }
 }
